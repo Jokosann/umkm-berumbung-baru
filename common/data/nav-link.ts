@@ -9,6 +9,6 @@ export const NavbarLinkData = [
   },
   {
     href: '/search',
-    title: 'Cari UMKM',
+    title: 'Layanan UMKM',
   },
 ];

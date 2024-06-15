@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation';
 import NavMain from '@/components/layout/navbar/NavMain';
 
-const disableNavbar = ['/login', '/register', '/error'];
+const disableNavbar = ['/admin', '/login', '/register'];
 
 export default function Navbar() {
   const pathname = usePathname();
