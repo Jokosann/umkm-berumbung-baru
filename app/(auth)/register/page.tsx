@@ -1,3 +1,12 @@
+import AuthLayout from '@/components/layout/auth';
+import Register from '@/modules/register';
+
 export default function RegisterPage() {
-  return <div>RegisterPage</div>;
+  return (
+    <section className="w-full min-h-screen flex flex-col justify-center items-center px-2">
+      <AuthLayout href="/login" title="Register" linkText="Sudah memiliki akun? Login ">
+        <Register />
+      </AuthLayout>
+    </section>
+  );
 }

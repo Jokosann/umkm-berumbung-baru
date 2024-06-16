@@ -4,7 +4,7 @@ import { NavbarLinkData } from '@/common/data/nav-link';
 import Img from '@/common/libs/image/image';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/shadcn/ui/button';
 import clsx from 'clsx';
@@ -12,6 +12,7 @@ import clsx from 'clsx';
 export default function NavMain() {
   const [isActiveMenu, setIsActiveMenu] = useState(false);
   const pathname = usePathname();
+  const { push } = useRouter();
 
   useEffect(() => {
     setIsActiveMenu(false);
@@ -35,9 +36,9 @@ export default function NavMain() {
       />
       <div
         className={clsx(
-          'md:text-white font-bold md:shadow-none md:p-0 md:w-auto md:h-auto md:flex-row md:bg-transparent md:flex md:justify-between md:items-center md:gap-8 text-sm lg:text-base md:static fixed z-50 top-[68px] sm:top-[98px] right-0 bg-white h-full text-primary-color flex flex-col items-start gap-6 w-[80vw] py-5 px-4 shadow-md transition-all duration-300',
+          'md:text-white font-bold md:shadow-none md:p-0 md:w-auto md:h-auto md:flex-row md:bg-transparent md:flex md:justify-between md:items-center md:gap-8 text-sm lg:text-base md:static fixed z-50 top-[68px] sm:top-[98px] -right-[80vw] bg-white h-full text-primary-color flex flex-col items-start gap-6 w-[80vw] py-5 px-4 shadow-md transition-all duration-300',
           {
-            '-right-[80vw]': !isActiveMenu,
+            'right-0': isActiveMenu,
           }
         )}
       >
@@ -54,7 +55,10 @@ export default function NavMain() {
             </Link>
           ))}
         </div>
-        <Button className="text-white bg-primary-color hover:bg-white hover:text-primary-color font-semibold border border-white">
+        <Button
+          onClick={() => push('/login')}
+          className="text-white bg-primary-color hover:bg-white hover:text-primary-color font-semibold border border-white"
+        >
           Login
         </Button>
       </div>
