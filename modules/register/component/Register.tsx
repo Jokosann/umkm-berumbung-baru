@@ -34,7 +34,7 @@ export default function Register() {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="John Dee" {...field} />
+                <Input {...field} />
               </FormControl>
               <FormDescription>*Masukkan nama yang unik.</FormDescription>
               <FormMessage />
@@ -54,21 +54,9 @@ export default function Register() {
             </FormItem>
           )}
         />
-        <FormField
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Konfirmasi Password</FormLabel>
-              <FormControl>
-                <Input type="password" placeholder="" {...field} />
-              </FormControl>
-              <FormDescription>*konfirmasi password anda.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
         <Button variant="default" type="submit" className="hover:bg-primary-color hover:text-white">
-          Register
+          Buat Akun
         </Button>
       </form>
     </Form>

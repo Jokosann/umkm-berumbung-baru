@@ -11,6 +11,7 @@ import clsx from 'clsx';
 
 export default function NavMain() {
   const [isActiveMenu, setIsActiveMenu] = useState(false);
+  const [bgNav, setBgNav] = useState(true);
   const pathname = usePathname();
   const { push } = useRouter();
 
@@ -18,25 +19,61 @@ export default function NavMain() {
     setIsActiveMenu(false);
   }, [pathname]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const { scrollY } = window;
+
+      if (scrollY > 0) {
+        setBgNav(true);
+      } else {
+        setBgNav(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  // console.log(bgNav);
+
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 w-full bg-primary-color px-6 py-3 sm:py-4 flex justify-between items-center">
+    <div
+      className={clsx(
+        'fixed top-0 left-0 right-0 z-50 w-full px-6 py-3 flex justify-between items-center transition duration-300',
+        {
+          'bg-primary-color shadow-sm': bgNav,
+        },
+        {
+          'bg-primary-color shadow-sm': isActiveMenu,
+        }
+      )}
+    >
       <div className="flex gap-4">
-        <Image src={Img.Logo} alt="logo" width={50} height={50} className="w-8 sm:w-12 lg:w-14" />
+        <Image
+          src={Img.Logo}
+          alt="logo"
+          width={50}
+          height={50}
+          className="w-8 sm:w-12 lg:w-13"
+          priority
+        />
         <Link href={'/'} className="flex flex-col justify-center items-start text-white">
-          <p className="font-bold text-sm sm:text-base md:text-lg lg:text-xl">Kampung Berumbung Baru</p>
-          <p className="text-xs sm:text-sm lg:text-base">Kabupaten Siak</p>
+          <p className="font-[800] text-sm sm:text-base">Layanan UMKM</p>
+          <p className="text-xs sm:text-sm font-medium">kampung Durian Runtuh</p>
         </Link>
       </div>
       <div
         onClick={() => setIsActiveMenu(false)}
         className={clsx({
-          'fixed top-[68px] sm:top-[98px] right-0 left-0 bottom-0 bg-transparent backdrop-blur-sm z-30':
+          'fixed top-[68px] sm:top-[90px] right-0 left-0 bottom-0 bg-transparent backdrop-blur-sm z-30':
             isActiveMenu,
         })}
       />
       <div
         className={clsx(
-          'md:text-white font-bold md:shadow-none md:p-0 md:w-auto md:h-auto md:flex-row md:bg-transparent md:flex md:justify-between md:items-center md:gap-8 text-sm lg:text-base md:static fixed z-50 top-[68px] sm:top-[98px] -right-[80vw] bg-white h-full text-primary-color flex flex-col items-start gap-6 w-[80vw] py-5 px-4 shadow-md transition-all duration-300',
+          'md:text-white font-bold md:shadow-none md:p-0 md:w-auto md:h-auto md:flex-row md:bg-transparent md:flex md:justify-between md:items-center md:gap-8 lg:gap-12 text-sm lg:text-base md:static fixed z-50 top-[68px] sm:top-[90px] -right-[80vw] bg-white h-full text-primary-color flex flex-col items-start gap-6 w-[80vw] py-5 px-4 shadow-md transition-all duration-300',
           {
             'right-0': isActiveMenu,
           }
@@ -57,20 +94,26 @@ export default function NavMain() {
         </div>
         <Button
           onClick={() => push('/login')}
-          className="text-white bg-primary-color hover:bg-white hover:text-primary-color font-semibold border border-white"
+          className={clsx(
+            'text-white hover:bg-white hover:text-primary-color font-semibold border border-white',
+            {
+              'md:bg-white md:text-primary-color hover:bg-primary-color hover:text-white': !bgNav,
+            }
+          )}
         >
           Login
         </Button>
       </div>
+
       <div
         onClick={() => setIsActiveMenu(!isActiveMenu)}
-        className={clsx('w-7 h-5 flex flex-col justify-between cursor-pointer md:hidden', {
-          'hamberger-active': isActiveMenu,
+        className={clsx('tham tham-e-squeeze tham-w-7 sm:tham-w-8 md:hidden', {
+          'tham-active': isActiveMenu,
         })}
       >
-        <div className="w-full h-[3px] bg-white rounded-lg"></div>
-        <div className="w-full h-[3px] bg-white rounded-lg"></div>
-        <div className="w-full h-[3px] bg-white rounded-lg"></div>
+        <div className="tham-box">
+          <div className="tham-inner bg-white" />
+        </div>
       </div>
     </div>
   );

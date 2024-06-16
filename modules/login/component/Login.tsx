@@ -34,7 +34,7 @@ export default function Login() {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="John Dee" {...field} />
+                <Input {...field} />
               </FormControl>
               <FormDescription>*Masukkan nama yang unik.</FormDescription>
               <FormMessage />

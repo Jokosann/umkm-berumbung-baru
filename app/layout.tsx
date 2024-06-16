@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import NavbarContainer from '@/components/layout/navbar';
-import { outfit } from '@/common/libs/font/font';
+import { dmSans } from '@/common/libs/font/font';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={outfit.className}>
+      <body className={dmSans.className}>
         <NavbarContainer />
         {children}
       </body>
