@@ -18,6 +18,9 @@ const config = {
       },
     },
     extend: {
+      backgroundImage: {
+        'hero-pattern': "url('/public/image/bg-home.jpg')",
+      },
       colors: {
         'primary-color': '#006643',
         border: 'hsl(var(--border))',
