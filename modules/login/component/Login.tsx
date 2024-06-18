@@ -1,18 +1,19 @@
 'use client';
 
-import { Button } from '@/components/shadcn/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '@/components/shadcn/ui/form';
+import { Button } from '@/components/shadcn/ui/button';
 import { Input } from '@/components/shadcn/ui/input';
 import { useForm } from 'react-hook-form';
+
 import { FcGoogle } from 'react-icons/fc';
+import { toast } from '@/components/shadcn/ui/use-toast';
 
 export default function Login() {
   const form = useForm({
@@ -23,12 +24,20 @@ export default function Login() {
   });
 
   function onSubmit(data: any) {
-    console.log(data);
+    toast({
+      variant: 'default',
+      title: 'You submitted the following values:',
+      description: (
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950">
+          <code className="text-black">{JSON.stringify(data, null, 2)}</code>
+        </pre>
+      ),
+    });
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={onSubmit} className="flex flex-col">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col">
         <FormField
           name="username"
           render={({ field }) => (
@@ -37,20 +46,19 @@ export default function Login() {
               <FormControl>
                 <Input {...field} placeholder="jokosann16" />
               </FormControl>
-              {/* <FormDescription>Masukkan nama unik anda.</FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
         />
+
         <FormField
           name="password"
           render={({ field }) => (
-            <FormItem className="mt-2">
+            <FormItem className="mt-2 mb-4">
               <FormLabel>Password</FormLabel>
               <FormControl>
                 <Input type="password" placeholder="********" {...field} />
               </FormControl>
-              {/* <FormDescription>*Masukkan password.</FormDescription> */}
               <FormMessage />
             </FormItem>
           )}

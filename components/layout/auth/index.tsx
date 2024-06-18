@@ -12,7 +12,9 @@ export default function AuthLayout({ title, children, linkText, href }: PropsTyp
     <>
       <div className="w-full text-center text-3xl font-semibold mb-1">{title}</div>
       <div className="max-w-lg px-6 py-2 w-full my-2">
-        <p className="text-sm text-muted-foreground mb-1">*masukkan username dan password.</p>
+        <p className="text-sm text-muted-foreground mb-1">
+          *Masukkan username dan password anda disini.
+        </p>
         {children}
       </div>
       <p className="text-sm mt-3 mb-4">

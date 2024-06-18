@@ -3,7 +3,7 @@ import HomePage from '@/modules/home';
 export default function Home() {
   return (
     <div className="w-full px-4 md:px-0">
-      <div className="w-full h-[180px] mt-24 sm:mt-28 mx-auto rounded-xl shadow-lg overflow-hidden md:min-h-screen md:mt-0 md:rounded-none flex items-center justify-center relative bg-center bg-cover custom-image">
+      <div className="w-full h-[180px] mt-24 sm:mt-28 mx-auto rounded-xl shadow-lg overflow-hidden md:min-h-screen md:mt-0 md:rounded-none flex items-center justify-center relative bg-center bg-cover custom-image mb-[1000px]">
         <div className="absolute inset-0 bg-black/60 z-[2]" />
         <div className="z-10 w-full h-full md:w-fit md:h-fit px-5 py-4 sm:px-6 sm:py-6 flex flex-col justify-evenly md:gap-6">
           <div>

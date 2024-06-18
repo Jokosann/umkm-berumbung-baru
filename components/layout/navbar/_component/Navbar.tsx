@@ -35,8 +35,6 @@ export default function NavMain() {
     };
   }, []);
 
-  // console.log(bgNav);
-
   return (
     <div
       className={clsx(
@@ -84,13 +82,13 @@ export default function NavMain() {
         <Button
           type="button"
           className={clsx(
-            'text-white hover:bg-white hover:text-primary-color font-semibold border border-white',
+            'text-white hover:bg-white hover:text-primary-color font-bold text-xs border border-white',
             {
               'md:bg-white md:text-primary-color hover:bg-primary-color hover:text-white': !bgNav,
             }
           )}
         >
-          Daftar UMKM
+          DAFTAR UMKM
         </Button>
       </div>
 
