@@ -8,7 +8,7 @@ export const NavbarLinkData = [
     title: 'Profile Kampung',
   },
   {
-    href: '/search',
-    title: 'Daftar UMKM',
+    href: '/umkm',
+    title: 'UMKM',
   },
 ];

@@ -1,3 +1,11 @@
-import NavbarContainer from '@/components/layout/navbar/Navbar';
+'use client';
 
-export default NavbarContainer;
+import { usePathname } from 'next/navigation';
+import NavMain from '@/components/layout/navbar/_component/Navbar';
+
+const disableNavbar = ['/admin', '/login', '/register'];
+
+export default function Navbar() {
+  const pathname = usePathname();
+  return !disableNavbar.includes(pathname) && <NavMain />;
+}

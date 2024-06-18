@@ -27,14 +27,14 @@ export default function Register() {
 
   return (
     <Form {...form}>
-      <form onSubmit={onSubmit} className="w-2/3 flex flex-col gap-4">
+      <form onSubmit={onSubmit} className="flex flex-col">
         <FormField
           name="username"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} placeholder="jokosann16" />
               </FormControl>
               <FormDescription>*Masukkan nama yang unik.</FormDescription>
               <FormMessage />
@@ -47,7 +47,7 @@ export default function Register() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="" {...field} />
+                <Input type="password" placeholder="********" {...field} />
               </FormControl>
               <FormDescription>*Masukkan password.</FormDescription>
               <FormMessage />
@@ -55,7 +55,7 @@ export default function Register() {
           )}
         />
 
-        <Button variant="default" type="submit" className="hover:bg-primary-color hover:text-white">
+        <Button variant="default" type="submit" className="hover:bg-primary-color hover:text-white mt-4">
           Buat Akun
         </Button>
       </form>
