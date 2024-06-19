@@ -1,4 +1,4 @@
-export const NavbarLinkData = [
+export const NavbarMenu = [
   {
     href: '/',
     title: 'Home',

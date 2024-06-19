@@ -1,12 +1,11 @@
 'use client';
 
-import { NavbarLinkData } from '@/common/data/nav-link';
-import Img from '@/common/libs/image/image';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Button } from '@/components/shadcn/ui/button';
+import { NavbarMenu } from '@/common/constant/navbar-menu';
+import { Logo } from '@/common/assets/image/img';
 import clsx from 'clsx';
 
 export default function NavMain() {
@@ -45,7 +44,7 @@ export default function NavMain() {
       )}
     >
       <div className="flex gap-4">
-        <Image src={Img.Logo} alt="logo" width={50} height={50} className="w-8 sm:w-10" priority />
+        <Image src={Logo} alt="logo" width={50} height={50} className="w-8 sm:w-10" priority />
         <Link href={'/'} className="flex flex-col justify-center items-start text-white">
           <p className="font-[800] text-sm sm:text-sm">LAYANAN UMKM</p>
           <p className="text-xs sm:text-sm font-medium">kampung Berumbung Baru</p>
@@ -67,7 +66,7 @@ export default function NavMain() {
         )}
       >
         <div className="md:text-white md:w-auto md:h-auto md:flex-row md:flex md:gap-6 text-primary-color flex flex-col items-start gap-7">
-          {NavbarLinkData.map((link, index) => (
+          {NavbarMenu.map((link, index) => (
             <Link
               key={index}
               href={link.href}
@@ -79,17 +78,6 @@ export default function NavMain() {
             </Link>
           ))}
         </div>
-        <Button
-          type="button"
-          className={clsx(
-            'text-white hover:bg-white hover:text-primary-color font-bold text-xs border border-white',
-            {
-              'md:bg-white md:text-primary-color hover:bg-primary-color hover:text-white': !bgNav,
-            }
-          )}
-        >
-          DAFTAR UMKM
-        </Button>
       </div>
 
       <div

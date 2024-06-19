@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { outfit } from '@/common/libs/font/font';
+import { dmSans } from '@/common/assets/font/font';
 import Navbar from '@/components/layout/navbar';
-import { Toaster } from '@/components/shadcn/ui/toaster';
 
 export const metadata: Metadata = {
   title: 'UMKM - Berumbung Baru Dayun',
@@ -12,10 +11,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={outfit.className}>
+      <body className={dmSans.className}>
         <Navbar />
         {children}
-        <Toaster />
       </body>
     </html>
   );
