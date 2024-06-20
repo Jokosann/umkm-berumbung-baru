@@ -1,7 +1,2 @@
-export default function HomePage() {
-  return (
-    <>
-      <h1>home!!!</h1>
-    </>
-  );
-}
+import HomeModule from '@/modules/home/_component/Home';
+export default HomeModule;

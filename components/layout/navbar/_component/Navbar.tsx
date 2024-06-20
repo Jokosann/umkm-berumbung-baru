@@ -78,6 +78,10 @@ export default function NavMain() {
             </Link>
           ))}
         </div>
+
+        <button className="btn bg-primary-color border border-white text-white hover:bg-primary-color/60 hover:border-white">
+          DAFTAR UMKM
+        </button>
       </div>
 
       <div
