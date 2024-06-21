@@ -4,9 +4,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { NavbarMenu } from '@/common/constant/navbar-menu';
 import { Logo } from '@/common/assets/image/img';
 import clsx from 'clsx';
+import { NavbarMenu } from '@/common/constant/navbar-menu';
 
 export default function NavMain() {
   const [isActiveMenu, setIsActiveMenu] = useState(false);
@@ -59,7 +59,7 @@ export default function NavMain() {
       />
       <div
         className={clsx(
-          'md:text-white font-bold md:shadow-none md:p-0 md:w-auto md:h-auto md:flex-row md:bg-transparent md:flex md:justify-between md:items-center md:gap-8 lg:gap-14 text-sm lg:text-base md:static fixed z-50 top-[68px] sm:top-[79px] -right-[80vw] bg-white h-full text-primary-color flex flex-col items-start gap-6 w-[80vw] py-5 px-4 shadow-md transition-all duration-300',
+          'md:text-white font-bold md:shadow-none md:p-0 md:w-auto md:h-auto md:flex-row md:bg-transparent md:flex md:justify-between md:items-center md:gap-6 lg:gap-14 text-sm lg:text-base md:static fixed z-50 top-[68px] sm:top-[79px] -right-[80vw] bg-white h-full text-primary-color flex flex-col items-start gap-6 w-[80vw] py-5 px-4 shadow-md transition-all duration-300',
           {
             'right-0': isActiveMenu,
           }
@@ -70,16 +70,20 @@ export default function NavMain() {
             <Link
               key={index}
               href={link.href}
-              className={clsx('hover:underline hover:underline-offset-8 hover:decoration-1', {
-                'underline underline-offset-8 decoration-1': pathname === link.href,
-              })}
+              className={clsx(
+                'hover:underline hover:underline-offset-8 hover:decoration-1 flex gap-2 items-center',
+                {
+                  'underline underline-offset-8 decoration-1': pathname === link.href,
+                }
+              )}
             >
-              {link.title}
+              <span>{link.icon}</span>
+              <span>{link.title}</span>
             </Link>
           ))}
         </div>
 
-        <button className="btn bg-primary-color border border-white text-white hover:bg-primary-color/60 hover:border-white">
+        <button className="btn bg-primary-color lg:bg-primary-color border border-white text-white lg:text-white  hover:bg-primary-color/60 hover:border-white text-xs btn-sm lg:btn h-10">
           DAFTAR UMKM
         </button>
       </div>
