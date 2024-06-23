@@ -1,46 +1,32 @@
 'use client';
 
-import { useState } from 'react';
-
-import { MdEmail } from 'react-icons/md';
-import { FaLock } from 'react-icons/fa';
-import { IoEyeOff, IoEye } from 'react-icons/io5';
+import { signIn } from 'next-auth/react';
+import { useSearchParams } from 'next/navigation';
 import { FcGoogle } from 'react-icons/fc';
 
 export default function Login() {
-  const [isEye, setIsEye] = useState(false);
+  const query = useSearchParams();
+  const callbackUrl = query.get('callbackUrl') || '/';
 
   return (
-    <form className="flex flex-col gap-4">
-      <label className="input input-bordered flex items-center gap-2">
-        <MdEmail />
-        <input type="email" className="grow placeholder:text-sm" placeholder="Email" />
-      </label>
-
-      <label className="input input-bordered flex items-center gap-2">
-        <FaLock />
-        <input
-          type={isEye ? 'text' : 'password'}
-          className="grow placeholder:text-sm"
-          placeholder="Password"
-        />
-        <div className="cursor-pointer" onClick={() => setIsEye(!isEye)}>
-          {!isEye ? <IoEyeOff className="w-5 h-5" /> : <IoEye className="w-5 h-5" />}
-        </div>
-      </label>
-
-      <button
-        type="submit"
-        className="btn bg-primary-color border border-white text-white hover:bg-primary-color/90 hover:border-white"
-      >
-        Login
-      </button>
-
-      <p className="text-center uppercase text-xs font-bold">or</p>
-
-      <button type="submit" className="btn border border-white text-black">
-        <FcGoogle className="text-xl" /> Login with Google
-      </button>
-    </form>
+    <>
+      <div className="w-full text-center text-3xl font-semibold">Login to you account</div>
+      <div className="max-w-lg px-6 py-2 w-full mt-1 mb-2">
+        <p className="text-sm mb-6 text-center text-slate-500">Login menggunakan akun google anda.</p>
+        <button
+          onClick={() => signIn('google', { callbackUrl, redirect: false })}
+          type="button"
+          className="btn w-full border border-primary-color/10 text-black"
+        >
+          <FcGoogle className="text-xl" /> Login with Google
+        </button>
+      </div>
+      <div className="max-w-sm mx-auto">
+        <p className="px-8 text-center text-sm mt-2">
+          By clicking continue, you agree to our <span className="underline">Terms of Service</span> and{' '}
+          <span className="underline">Privacy Policy</span>
+        </p>
+      </div>
+    </>
   );
 }

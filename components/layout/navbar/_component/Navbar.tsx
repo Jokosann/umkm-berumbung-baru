@@ -7,8 +7,11 @@ import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { NavbarMenu } from '@/common/constant/navbar-menu';
 import { Logo } from '@/common/assets/image';
+import { signOut, useSession } from 'next-auth/react';
 
 export default function NavMain() {
+  const { data, status } = useSession();
+
   const [isActiveMenu, setIsActiveMenu] = useState(false);
   const [bgNav, setBgNav] = useState(false);
   const pathname = usePathname();
@@ -81,9 +84,18 @@ export default function NavMain() {
           ))}
         </div>
 
-        <button className="btn bg-primary-color lg:bg-primary-color border border-white text-white lg:text-white  hover:bg-primary-color/60 hover:border-white text-xs btn-sm lg:btn h-10">
-          DAFTAR UMKM
-        </button>
+        {status === 'authenticated' ? (
+          <button
+            onClick={() => signOut()}
+            className="btn bg-primary-color lg:bg-primary-color border border-white text-white lg:text-white  hover:bg-primary-color/60 hover:border-white text-xs btn-sm lg:btn h-10"
+          >
+            LOGOUT
+          </button>
+        ) : (
+          <button className="btn bg-primary-color lg:bg-primary-color border border-white text-white lg:text-white  hover:bg-primary-color/60 hover:border-white text-xs btn-sm lg:btn h-10">
+            DAFTAR UMKM
+          </button>
+        )}
       </div>
 
       <div
