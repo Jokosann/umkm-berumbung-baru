@@ -8,6 +8,9 @@ const config: Config = {
       colors: {
         'primary-color': '#006643',
       },
+      screens: {
+        xs: '450px',
+      },
     },
   },
   plugins: [require('daisyui'), require('tailwind-hamburgers')],

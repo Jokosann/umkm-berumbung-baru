@@ -4,9 +4,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Logo } from '@/common/assets/image/img';
 import clsx from 'clsx';
 import { NavbarMenu } from '@/common/constant/navbar-menu';
+import { Logo } from '@/common/assets/image';
 
 export default function NavMain() {
   const [isActiveMenu, setIsActiveMenu] = useState(false);

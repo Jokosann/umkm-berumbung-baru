@@ -8,7 +8,7 @@ export default function RegisterPage() {
         href="/login"
         title="Create an account"
         linkText="Sudah memiliki akun? Login "
-        inputTitle="*Masukkan email, fullname, dan password anda."
+        inputTitle="*Masukkan nama, email, dan password anda."
       >
         <RegisterModule />
       </AuthLayout>
