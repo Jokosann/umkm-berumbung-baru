@@ -9,7 +9,7 @@ export const NavbarMenu = [
     icon: <FaHome />,
   },
   {
-    href: '/profile',
+    href: '/profile-kampung',
     title: 'Profile Kampung',
     icon: <RiProfileFill />,
   },

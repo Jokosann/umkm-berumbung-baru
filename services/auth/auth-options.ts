@@ -3,6 +3,9 @@ import {
   GOOGLE_OAUTH_CLIENT_SECRET,
   NEXT_AUTH_SECRET,
 } from '@/common/constant/env';
+import { loginWithGoogle } from '@/common/libs/db/services';
+import { UserLogin } from '@/common/types/user-login';
+import { User } from '@prisma/client';
 import { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 
@@ -22,19 +25,29 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ account, user, token }) {
-      console.log({ account, user, token });
       if (account?.provider === 'google') {
-        token.email = user.email;
+        const data: UserLogin = {
+          email: user.email!,
+          name: user.name!,
+          image: user.image!,
+        };
+
+        await loginWithGoogle(data, (result: { status: boolean; data: User }) => {
+          if (result.status) {
+            token.id = result.data.id;
+            token.name = result.data.name;
+            token.email = result.data.email;
+            token.image = result.data.image;
+          }
+        });
       }
 
       return token;
     },
 
     async session({ session, token }: any) {
-      console.log({ session, token });
-
-      if ('email' in token) {
-        session.user.email = token.email;
+      if ('id' in token) {
+        session.user.id = token.id;
       }
 
       return session;
