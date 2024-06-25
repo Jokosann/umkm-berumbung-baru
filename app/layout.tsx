@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { dmSans } from '@/common/assets/font/font';
 import Navbar from '@/components/layout/navbar';
-import AuthProvider from '@/services/auth/auth-provider';
+import AuthProvider from '@/components/ui/AuthProvider';
 
 export const metadata: Metadata = {
   title: 'UMKM - Berumbung Baru Dayun',
