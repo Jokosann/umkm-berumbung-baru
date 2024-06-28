@@ -1,16 +1,23 @@
-import { UserLogin } from '@/common/types/user-login';
 import prisma from './prisma';
+import { User } from 'next-auth';
+import { AdapterUser } from 'next-auth/adapters';
 
-export const loginWithGoogle = async (data: UserLogin, callbacks: Function) => {
-  const query = await prisma.user.findUnique({
-    where: { email: data.email },
+export const loginWithGoogle = async (user: User | AdapterUser) => {
+  const isUser = await prisma.user.findUnique({
+    where: { email: user.email! },
   });
 
-  if (query) {
-    callbacks({ status: true, messages: 'success login', data: query });
+  if (isUser) {
+    return isUser;
   } else {
-    const newUser = await prisma.user.create({ data });
+    const newUser = await prisma.user.create({
+      data: {
+        name: user.name!,
+        email: user.email!,
+        image: user.image!,
+      },
+    });
 
-    callbacks({ status: true, messages: 'success create user', data: newUser });
+    return newUser;
   }
 };

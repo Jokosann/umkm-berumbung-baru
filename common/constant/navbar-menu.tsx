@@ -8,11 +8,11 @@ export const NavbarMenu = [
     title: 'Home',
     icon: <FaHome />,
   },
-  {
-    href: '/profile-kampung',
-    title: 'Profile Kampung',
-    icon: <RiProfileFill />,
-  },
+  // {
+  //   href: '/profile-kampung',
+  //   title: 'Profile Kampung',
+  //   icon: <RiProfileFill />,
+  // },
   {
     href: '/umkm',
     title: 'UMKM',

@@ -4,13 +4,19 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import clsx from 'clsx';
+import { signOut, useSession } from 'next-auth/react';
 import { NavbarMenu } from '@/common/constant/navbar-menu';
 import { Logo } from '@/common/assets/image';
-import { signOut, useSession } from 'next-auth/react';
+
+import clsx from 'clsx';
+
+import { CgProfile } from 'react-icons/cg';
+import { IoIosLogOut } from 'react-icons/io';
 
 export default function NavMain() {
   const { data, status } = useSession();
+
+  const user = data?.user;
 
   const [isActiveMenu, setIsActiveMenu] = useState(false);
   const [bgNav, setBgNav] = useState(false);
@@ -60,7 +66,7 @@ export default function NavMain() {
       />
       <div
         className={clsx(
-          'md:text-white font-bold md:shadow-none md:p-0 md:w-auto md:h-auto md:flex-row md:bg-transparent md:flex md:justify-between md:items-center md:gap-6 lg:gap-14 text-sm lg:text-base md:static fixed z-50 top-[68px] sm:top-[79px] -right-[80vw] bg-white h-full text-primary-color flex flex-col items-start gap-6 w-[80vw] py-5 px-4 shadow-md transition-all duration-300',
+          'md:text-white font-bold md:shadow-none md:p-0 md:w-auto md:h-full md:flex-row md:bg-transparent md:flex md:justify-between md:items-center md:gap-6 text-sm md:static fixed z-50 top-[68px] sm:top-[79px] -right-[80vw] bg-white h-full text-primary-color flex flex-col items-start gap-6 w-[80vw] py-5 px-4 shadow-md transition-all duration-300',
           {
             'right-0': isActiveMenu,
           }
@@ -85,14 +91,25 @@ export default function NavMain() {
         </div>
 
         {status === 'authenticated' ? (
-          <button
-            onClick={() => signOut()}
-            className="btn bg-primary-color lg:bg-primary-color border border-white text-white lg:text-white  hover:bg-primary-color/60 hover:border-white text-xs btn-sm lg:btn h-10"
-          >
-            LOGOUT
-          </button>
+          <details className="dropdown md:dropdown-end">
+            <summary className="btn bg-primary-color lg:bg-primary-color md:border-2 md:border-white/60 text-white lg:text-white  hover:bg-primary-color/80 hover:border-white text-xs btn-sm h-10 uppercase">
+              {user?.name}
+            </summary>
+            <ul className="dropdown-content menu bg-base-100 rounded-lg mt-1 z-[1] w-40 p-2 shadow-sm text-primary-color font-bold border-2 border-primary-color/10">
+              <li>
+                <Link href={'/dashboard/profile'} className="flex items-center">
+                  <CgProfile className="font-bold text-lg" /> <span>Acount</span>{' '}
+                </Link>
+              </li>
+              <li>
+                <button onClick={() => signOut()} className="flex items-center text-red-600">
+                  <IoIosLogOut className="font-bold text-lg" /> <span>Logout</span>
+                </button>
+              </li>
+            </ul>
+          </details>
         ) : (
-          <button className="btn bg-primary-color lg:bg-primary-color border border-white text-white lg:text-white  hover:bg-primary-color/60 hover:border-white text-xs btn-sm lg:btn h-10">
+          <button className="btn bg-primary-color lg:bg-primary-color border border-white text-white lg:text-white  hover:bg-primary-color/60 hover:border-white text-xs btn-sm h-10">
             DAFTAR UMKM
           </button>
         )}
