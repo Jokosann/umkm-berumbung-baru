@@ -5,4 +5,9 @@ export function mainMiddleware() {
   return NextResponse.next();
 }
 
-export default WithAuth(mainMiddleware, ['/dashboard/profile', '/dashboard/admin']);
+export default WithAuth(mainMiddleware, [
+  '/dashboard/profile',
+  '/dashboard/admin',
+  '/dashboard/profile/update',
+  '/auth/login',
+]);

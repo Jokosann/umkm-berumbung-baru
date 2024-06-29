@@ -21,3 +21,13 @@ export const loginWithGoogle = async (user: User | AdapterUser) => {
     return newUser;
   }
 };
+
+export const getUserById = async (id: string) => {
+  const user = await prisma.user.findUnique({
+    where: { id },
+  });
+
+  if (!user) throw new Error('Unauthenticated');
+
+  return user;
+};
