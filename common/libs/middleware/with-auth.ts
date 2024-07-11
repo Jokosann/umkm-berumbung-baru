@@ -24,7 +24,7 @@ export default function WithAuth(middleware: NextMiddleware, requireAuth: string
             return NextResponse.redirect(new URL('/', req.url).toString());
           }
 
-          if (!token.is_admin && adminPage.includes(pathname)) {
+          if (!token.isAdmin && adminPage.includes(pathname)) {
             return NextResponse.redirect(new URL('/', req.url).toString());
           }
         }

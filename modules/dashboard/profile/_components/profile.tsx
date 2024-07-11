@@ -1,31 +1,46 @@
 'use client';
 
-import { User } from 'next-auth';
 import Image from 'next/image';
-import Link from 'next/link';
 import ListUserPerson from './ListUserPerson';
 import { IoIosArrowForward, IoMdCamera } from 'react-icons/io';
 import { updateUserProfile } from '@/common/libs/firebase/services';
-import { useState, useRef } from 'react';
-import { useFormState } from 'react-dom';
-import instance from '@/common/libs/axios/instance';
+import { useState, useRef, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { updateProfileValidation } from '@/validations/user-validation';
+import { userServices } from '@/services/users';
+import { Business, User } from '@prisma/client';
+import { callbackUpdateUser } from '@/common/types/user-update-profile';
+import { FaPlus } from 'react-icons/fa6';
+import BisnisProfile from './BisnisProfile';
+import Link from 'next/link';
+import Toaster from '@/components/ui/Toaster';
 
 type PropsTypes = {
   user: User | null;
+  bisnis: Array<Business> | null;
 };
 
-export default function Profile({ user }: PropsTypes) {
-  const id = user?.id;
-  // const [formState, formUpdateProfileAction] = useFormState(
-  //   updateUserProfile.bind(null, id as string),
-  //   null
-  // );
+export type Toast = {
+  variant: string;
+  message: string;
+};
+
+export default function Profile({ user, bisnis }: PropsTypes) {
+  const { refresh, push } = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [toast, setToast] = useState<any>({});
+
   const [image, setImage] = useState(user?.image);
   const [imageMain, setImageMain] = useState(user?.image);
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const formProfileRef = useRef<HTMLFormElement>(null);
+
+  const id = user?.id;
 
   const handleChangeProfile = (e: any) => {
     const file = e.target?.files[0];
+    console.log(file);
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setImage(imageUrl);
@@ -34,29 +49,71 @@ export default function Profile({ user }: PropsTypes) {
 
   const formUpdateProfileAction = (e: any) => {
     e.preventDefault();
+
+    setMessage('');
+    setLoading(true);
+
     const file = e.target[0]?.files[0];
-    if (file) {
-      updateUserProfile(id as string, file, async (newImageUrl: string) => {
-        const data = { image: newImageUrl, id };
-        const result = await instance.post('/api/users/profile', JSON.stringify(data));
-        if (result.status) {
-          setImageMain(newImageUrl);
-          return { message: 'true' };
+
+    const validateFields = updateProfileValidation.safeParse({ profile: file });
+    console.log(validateFields);
+
+    if (!validateFields.success) {
+      setLoading(false);
+      setMessage(String(validateFields.error.flatten().fieldErrors.profile));
+    } else {
+      const { profile } = validateFields.data;
+
+      updateUserProfile(id as string, profile, async ({ status, urlImage }: callbackUpdateUser) => {
+        if (status) {
+          const data = { image: urlImage, id };
+          const result = await userServices.updateUserProfile(JSON.stringify(data));
+          if (result.status) {
+            setImageMain(urlImage);
+            refresh();
+            setLoading(false);
+            if (formProfileRef.current) formProfileRef.current.reset();
+            setToast({
+              variant: 'alert-info',
+              message: 'Berhasil update profile',
+            });
+          } else {
+            setLoading(false);
+            if (formProfileRef.current) formProfileRef.current.reset();
+            setToast({
+              variant: 'alert-info',
+              message: 'Gagal update profile',
+            });
+          }
         } else {
-          return { message: 'false' };
+          setLoading(false);
+          if (formProfileRef.current) formProfileRef.current.reset();
+          setToast({
+            variant: 'alert-info',
+            message: 'Gagal update profile',
+          });
         }
       });
     }
   };
 
-  // console.log(formState);
+  useEffect(() => {
+    if (Object.keys(toast).length > 0) {
+      setTimeout(() => {
+        setToast({});
+      }, 3000);
+    }
+  }, [setToast, toast]);
 
   return (
     <>
+      {Object.keys(toast).length > 0 && (
+        <Toaster variant={toast?.variant as string} message={toast?.message as string} />
+      )}
       <div className="px-6 mt-20 sm:mt-24 md:mt-20">
         <div className="mx-auto mb-96">
           <div className="mt-40">
-            <div className="pb-6 text-center -mt-14">
+            <div className="pb-2 text-center -mt-14">
               <div className="relative z-30 mx-auto h-24 w-24 rounded-full bg-white/30 p-1 flex justify-center items-center">
                 <div className="relative w-full h-full flex justify-center items-center rounded-full overflow-hidden cursor-pointer">
                   <Image
@@ -99,31 +156,85 @@ export default function Profile({ user }: PropsTypes) {
                     </div>
                   </div>
                 </ListUserPerson>
-                <ListUserPerson label="Name" value={user?.name as string} height="h-[70px]">
-                  <IoIosArrowForward />
-                </ListUserPerson>
-                <ListUserPerson label="Email" value={user?.email as string} height="h-[70px]">
-                  <IoIosArrowForward />
-                </ListUserPerson>
-                <ListUserPerson label="Phone" height="h-[70px]">
-                  <IoIosArrowForward />
-                </ListUserPerson>
-                <ListUserPerson label="Address" height="h-[70px]">
-                  <IoIosArrowForward />
-                </ListUserPerson>
-              </div>
-              <div className="max-w-3xl mx-auto flex justify-end">
-                <Link
-                  href={'/dashboard/profile/update'}
-                  className="btn mt-4 bg-primary-color hover:bg-primary-color/90 text-white"
+                <ListUserPerson
+                  onClick={() => push('/dashboard/profile/update')}
+                  label="Name"
+                  value={user?.name as string}
+                  height="h-[70px]"
                 >
-                  Update Data
-                </Link>
+                  <IoIosArrowForward />
+                </ListUserPerson>
+                <ListUserPerson
+                  onClick={() => push('/dashboard/profile/update')}
+                  label="Email"
+                  value={user?.email as string}
+                  height="h-[70px]"
+                >
+                  <IoIosArrowForward />
+                </ListUserPerson>
+                <ListUserPerson
+                  onClick={() => push('/dashboard/profile/update')}
+                  label="Phone"
+                  height="h-[70px]"
+                  value={user?.phone as string}
+                >
+                  <IoIosArrowForward />
+                </ListUserPerson>
+                <ListUserPerson
+                  onClick={() => push('/dashboard/profile/update')}
+                  label="Address"
+                  height="h-[70px]"
+                  value={user?.alamat as string}
+                >
+                  <IoIosArrowForward />
+                </ListUserPerson>
               </div>
             </div>
+
+            <div className="max-w-3xl mx-auto flex justify-center">
+              <Link
+                href={`/dashboard/profile/update/${id}`}
+                className="btn mt-4 bg-primary-color hover:bg-primary-color/90 text-white w-full"
+              >
+                Edit Profile
+              </Link>
+            </div>
+
+            {bisnis?.length === 1 ? (
+              bisnis?.map((bisnisDb) => (
+                <div key={bisnisDb.id} className="pb-6 text-center mt-14 max-w-3xl mx-auto">
+                  <BisnisProfile
+                    bisnis={bisnisDb}
+                    phone={user?.phone ?? ''}
+                    setToast={setToast}
+                    toast={toast}
+                  />
+
+                  <div className="max-w-3xl mx-auto flex justify-center">
+                    <Link
+                      href={`/dashboard/bussines/update/${bisnisDb.id}`}
+                      className="btn mt-4 bg-primary-color hover:bg-primary-color/90 text-white w-full"
+                    >
+                      Edit Bisnis
+                    </Link>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="max-w-3xl mx-auto flex justify-center">
+                <Link
+                  href={'/dashboard/bussines'}
+                  className="btn mt-4 bg-primary-color hover:bg-primary-color/90 text-white w-full"
+                >
+                  <FaPlus />
+                  Tambahkan Bisnis Anda
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>
+
       <dialog ref={dialogRef} id="my_modal_3" className="modal">
         <div className="modal-box">
           <h3 className="font-bold text-lg mb-2">Update Profile</h3>
@@ -131,10 +242,7 @@ export default function Profile({ user }: PropsTypes) {
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
           </form>
 
-          <form
-            onSubmit={formUpdateProfileAction}
-            className="flex flex-col gap-2 justify-center items-center"
-          >
+          <div className="w-full flex flex-col justify-center items-center gap-2">
             <div className="w-28 h-28 overflow-hidden rounded-full shadow-md">
               <Image
                 src={image as string}
@@ -144,6 +252,14 @@ export default function Profile({ user }: PropsTypes) {
                 className="w-full h-full object-cover"
               />
             </div>
+            {message && <span className="text-red-500 text-sm">{message}</span>}
+          </div>
+
+          <form
+            onSubmit={formUpdateProfileAction}
+            ref={formProfileRef}
+            className="flex flex-col gap-2 justify-center items-center"
+          >
             <div className="w-full mt-4">
               <label className="flex w-full cursor-pointer appearance-none items-center justify-center rounded-md border-2 border-dashed border-gray-200 p-6 transition-all hover:border-primary-300">
                 <div className="space-y-1 text-center mt-2">
@@ -169,7 +285,7 @@ export default function Profile({ user }: PropsTypes) {
                     </a>{' '}
                     or drag and drop
                   </div>
-                  <p className="text-sm text-gray-500">SVG, PNG, JPG or GIF (max. 800x400px)</p>
+                  <p className="text-sm text-gray-500">PNG, JPG (max size 2MB)</p>
                 </div>
                 <input
                   name="profile"
@@ -180,9 +296,13 @@ export default function Profile({ user }: PropsTypes) {
                 />
               </label>
             </div>
-            <div className="w-full flex justify-end mt-4">
-              <button type="submit" className="btn btn-neutral">
-                update
+            <div className="w-full flex justify-end mt-4 disabled:cursor-no-drop">
+              <button
+                type="submit"
+                disabled={loading && formProfileRef.current ? true : false}
+                className="btn btn-neutral"
+              >
+                {loading ? 'Loading...' : 'update'}
               </button>
             </div>
           </form>

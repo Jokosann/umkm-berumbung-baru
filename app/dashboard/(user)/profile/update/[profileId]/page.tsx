@@ -2,7 +2,7 @@ import { getUserById } from '@/common/libs/db/services';
 import FormUpdateProfile from '@/modules/dashboard/profile/_components/FormUpdateProfile';
 import { getSession } from '@/services/session';
 
-export default async function UpdateProfilesPage() {
+export default async function UpdateProfilesPage({ params }: { params: {} }) {
   const session: any = await getSession();
   const userDb = await getUserById(session?.id);
 

@@ -29,7 +29,7 @@ export const authOptions: NextAuthOptions = {
         return {
           ...token,
           id: dataUser.id,
-          is_admin: dataUser.isAdmin,
+          isAdmin: dataUser.isAdmin,
         };
       }
 
@@ -42,7 +42,7 @@ export const authOptions: NextAuthOptions = {
         user: {
           ...session.user,
           id: token.id,
-          is_admin: token.is_admin,
+          isAdmin: token.isAdmin,
         },
       };
     },

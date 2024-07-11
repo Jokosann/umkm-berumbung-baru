@@ -31,3 +31,25 @@ export const getUserById = async (id: string) => {
 
   return user;
 };
+
+export const getBisnisByEmail = async (email: string) => {
+  const bisnis = await prisma.business.findMany({
+    where: { user: email },
+  });
+
+  if (!bisnis) throw new Error('Unauthenticated');
+
+  return bisnis;
+};
+
+export const getBisnisByEmailUniq = async (id: string) => {
+  // Kemudian, cari bisnis berdasarkan userId dari pengguna yang ditemukan
+  const bisnis = await prisma.business.findUnique({
+    where: { id },
+  });
+  console.log(bisnis);
+
+  if (!bisnis) throw new Error('Unauthenticated');
+
+  return bisnis;
+};

@@ -1,25 +1,20 @@
 import { z } from 'zod';
 
-export const userLoginValidation = z.object({
-  email: z.string().email(),
-  password: z.string(),
-});
-
-export const updateUserValidation = z.object({
+export const updateProfileValidation = z.object({
   profile: z
     .instanceof(File)
-    .refine((file) => file.size > 0, {
-      message: '*Image is required',
-    })
     .refine((file) => file.size === 0 || file.type.startsWith('image/'), {
-      message: '*Only images are allowed',
+      message: '*Hanya gambar yang diperbolehkan',
     })
-    .refine((file) => file.size < 2500000, {
-      message: '*Image must less than 2.5MB',
+    .refine((file) => file.size < 500000, {
+      message: '*Gambar harus kurang dari 2MB',
     }),
-  // firstName: z.string().min(1).max(30),
-  // lastName: z.string().min(1).max(30),
-  // email: z.string().email().optional(),
-  // contact: z.string(),
-  // alamat: z.string().min(1).max(100),
+});
+
+export const updateUserDataValidation = z.object({
+  firstName: z.string().min(1),
+  lastName: z.string().optional(),
+  email: z.string().email(),
+  contact: z.string().optional(),
+  alamat: z.string().optional(),
 });

@@ -8,32 +8,40 @@ datasource db {
 }
 
 model User {
-  id        String     @id @default(cuid())
-  email     String     @unique
+  id        String   @id @default(cuid())
+  email     String   @unique
   name      String
   image     String
-  contact   String?
+  phone     String?
   alamat    String?
-  isAdmin   Boolean    @default(false) @map("is_admin")
-  createdAt DateTime   @default(now()) @map("created_at")
-  updatedAt DateTime   @updatedAt @map("updated_at")
-  business  Business[]
+  isAdmin   Boolean  @default(false) @map("is_admin")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("users")
 }
 
 model Business {
-  id            String   @id @default(cuid())
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
-  title         String
-  address       String
-  contact       String?
-  description   String?
-  imageBusiniss String?  @map("image_businiss")
-  published     Boolean  @default(false)
-  author        User?    @relation(fields: [authorId], references: [id])
-  authorId      String?  @map("author_id")
+  id               String   @id @default(cuid())
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+  nameBisnis       String   @map("name_bisnis")
+  whatsapp         String?
+  telepon          String?
+  instagram        String?
+  urlInstagram     String?  @map("url_instagram")
+  tiktok           String?
+  urlTiktok        String?  @map("url_tiktok")
+  facebook         String?
+  urlFacebook      String?  @map("url_facebook")
+  lokasiGoogleMaps String?  @map("lokasi_google_maps")
+  lokasiNamaJalan  String?  @map("lokasi_nama_jalan")
+  keterangan       String?
+  imageBisnis      String   @map("image_bisnis")
+  published        Boolean  @default(false)
+  user             String?
+  userId           String?
 
+  @@unique([user, userId])
   @@map("business")
 }
