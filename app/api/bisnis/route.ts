@@ -1,4 +1,5 @@
 import prisma from '@/common/libs/db/prisma';
+// import { revalidatePath } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
@@ -9,6 +10,8 @@ export async function POST(req: NextRequest) {
     console.log('Parsed request data:', res);
 
     const result = await prisma.business.create({ data: res });
+
+    // revalidatePath('http://localhost:3000/dashboard/admin/business');
 
     console.log('Database operation result:', result);
 

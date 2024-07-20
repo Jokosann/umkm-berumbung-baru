@@ -4,20 +4,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { signOut, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { NavbarMenu } from '@/common/constant/navbar-menu';
 import { Logo } from '@/common/assets/image';
 
 import clsx from 'clsx';
 
-import { CgProfile } from 'react-icons/cg';
-import { IoIosLogOut } from 'react-icons/io';
-
-export default function NavMain() {
-  const { data, status } = useSession();
-
-  const user = data?.user;
-
+export default function Navbar() {
   const [isActiveMenu, setIsActiveMenu] = useState(false);
   const [bgNav, setBgNav] = useState(false);
   const pathname = usePathname();
@@ -50,7 +43,7 @@ export default function NavMain() {
         }
       )}
     >
-      <div className="flex gap-4">
+      <div className="flex gap-3">
         <Image src={Logo} alt="logo" width={50} height={50} className="w-8 sm:w-10" priority />
         <Link href={'/'} className="flex flex-col justify-center items-start text-white">
           <p className="font-[800] text-sm sm:text-sm">LAYANAN UMKM</p>
@@ -66,31 +59,33 @@ export default function NavMain() {
       />
       <div
         className={clsx(
-          'md:text-white font-bold md:shadow-none md:p-0 md:w-auto md:h-full md:flex-row md:bg-transparent md:flex md:justify-between md:items-center md:gap-6 text-sm md:static fixed z-50 top-[68px] sm:top-[79px] -right-[80vw] bg-white h-full text-primary-color flex flex-col items-start gap-6 w-[80vw] py-5 px-4 shadow-md transition-all duration-300',
+          'md:text-white font-bold md:shadow-none md:p-0 md:w-auto md:h-full md:flex-row md:bg-transparent md:flex md:justify-between md:items-center md:gap-6 text-sm md:static fixed z-50 top-[68px] sm:top-[79px] -right-[80vw] bg-white h-full text-primary-color flex flex-col items-start gap-6 w-[80vw] sm:w-[50vw] py-5 px-4 shadow-md transition-all duration-300',
           {
             'right-0': isActiveMenu,
           }
         )}
       >
-        <div className="md:text-white md:w-auto md:h-auto md:flex-row md:flex md:gap-6 text-primary-color flex flex-col items-start gap-7">
-          {NavbarMenu.map((link, index) => (
-            <Link
-              key={index}
-              href={link.href}
-              className={clsx(
-                'hover:underline hover:underline-offset-8 hover:decoration-1 flex gap-2 items-center',
-                {
-                  'underline underline-offset-8 decoration-1': pathname === link.href,
-                }
-              )}
-            >
-              <span>{link.icon}</span>
-              <span>{link.title}</span>
-            </Link>
-          ))}
+        <div className="text-primary-color w-full h-full flex justify-center items-center md:w-auto md:h-auto">
+          <div className="flex flex-col items-start justify-center gap-7 -mt-[68px] sm:-mt-[79px] md:mt-0 md:text-white md:w-auto md:h-auto md:flex-row md:flex md:gap-6">
+            {NavbarMenu.map((link, index) => (
+              <Link
+                key={index}
+                href={link.href}
+                className={clsx(
+                  'hover:underline hover:underline-offset-8 hover:decoration-1 flex gap-2 items-center',
+                  {
+                    'underline underline-offset-8 decoration-1': pathname === link.href,
+                  }
+                )}
+              >
+                <span>{link.icon}</span>
+                <span>{link.title}</span>
+              </Link>
+            ))}
+          </div>
         </div>
 
-        {status === 'authenticated' ? (
+        {/* {status === 'authenticated' ? (
           <details className="dropdown md:dropdown-end">
             <summary className="btn bg-primary-color lg:bg-primary-color md:border-2 md:border-white/60 text-white lg:text-white  hover:bg-primary-color/80 hover:border-white text-xs btn-sm h-10 uppercase">
               {user?.name}
@@ -112,7 +107,7 @@ export default function NavMain() {
           <button className="btn bg-primary-color lg:bg-primary-color border border-white text-white lg:text-white  hover:bg-primary-color/60 hover:border-white text-xs btn-sm h-10">
             DAFTAR UMKM
           </button>
-        )}
+        )} */}
       </div>
 
       <div

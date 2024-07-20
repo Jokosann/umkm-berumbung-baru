@@ -1,4 +1,4 @@
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from './init';
 
 export async function updateUserProfile(userId: string, profile: File, callback: Function) {
@@ -43,10 +43,10 @@ export async function updateUserProfile(userId: string, profile: File, callback:
   }
 }
 
-export async function createBisnis(userId: string, imageBisnis: File, callback: Function) {
+export async function createProfileBusines(id: string, imageBisnis: File, callback: Function) {
   try {
     // Create a storage reference
-    const storageRef = ref(storage, `image/bisniss/${userId}`);
+    const storageRef = ref(storage, `image/business/${id}`);
     const uploadTask = uploadBytesResumable(storageRef, imageBisnis);
 
     // Monitor the upload process
@@ -84,6 +84,26 @@ export async function createBisnis(userId: string, imageBisnis: File, callback: 
     callback({ status: false, message: 'Failed update Profile' });
   }
 }
+
+export const deleteProfileBusines = (id: string, callback: Function) => {
+  // Create a reference to the file to delete
+  const desertRef = ref(storage, `image/business/${id}`);
+
+  console.log(desertRef);
+
+  // Delete the file
+  deleteObject(desertRef)
+    .then(() => {
+      // File deleted successfully
+      callback(true);
+    })
+    .catch((error) => {
+      // Uh-oh, an error occurred!
+      console.log(error);
+      callback(false);
+    });
+};
+
 export async function updateProfileBisnis(userId: string, profileBisnis: File, callback: Function) {
   try {
     // Create a storage reference

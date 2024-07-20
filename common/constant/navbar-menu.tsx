@@ -1,21 +1,21 @@
 import { FaHome } from 'react-icons/fa';
-import { FaShop } from 'react-icons/fa6';
-import { RiProfileFill } from 'react-icons/ri';
+import { AiFillShop } from 'react-icons/ai';
+import { TbLayoutDashboardFilled } from 'react-icons/tb';
 
 export const NavbarMenu = [
   {
     href: '/',
-    title: 'Home',
+    title: 'home',
     icon: <FaHome />,
   },
-  // {
-  //   href: '/profile-kampung',
-  //   title: 'Profile Kampung',
-  //   icon: <RiProfileFill />,
-  // },
   {
     href: '/umkm',
-    title: 'UMKM',
-    icon: <FaShop />,
+    title: 'umkm',
+    icon: <AiFillShop />,
+  },
+  {
+    href: '/dashboard',
+    title: 'dashboard',
+    icon: <TbLayoutDashboardFilled />,
   },
 ];

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { dmSans } from '@/common/assets/font/font';
+import { figtree } from '@/common/assets/font/font';
 import Navbar from '@/components/layout/navbar';
 import AuthProvider from '@/components/ui/AuthProvider';
 
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" data-theme="light">
-      <body className={dmSans.className}>
+      <body className={figtree.className}>
         <AuthProvider>
           <Navbar />
           {children}

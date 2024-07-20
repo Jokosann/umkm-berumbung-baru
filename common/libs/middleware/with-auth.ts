@@ -8,6 +8,7 @@ const authPage = ['/auth/login'];
 export default function WithAuth(middleware: NextMiddleware, requireAuth: string[] = []) {
   return async (req: NextRequest, next: NextFetchEvent) => {
     const pathname = req.nextUrl.pathname;
+    console.log(pathname);
 
     if (requireAuth.includes(pathname)) {
       try {

@@ -22,26 +22,29 @@ model User {
 }
 
 model Business {
-  id               String   @id @default(cuid())
-  createdAt        DateTime @default(now()) @map("created_at")
-  updatedAt        DateTime @updatedAt @map("updated_at")
-  nameBisnis       String   @map("name_bisnis")
-  whatsapp         String?
-  telepon          String?
-  instagram        String?
-  urlInstagram     String?  @map("url_instagram")
-  tiktok           String?
-  urlTiktok        String?  @map("url_tiktok")
-  facebook         String?
-  urlFacebook      String?  @map("url_facebook")
-  lokasiGoogleMaps String?  @map("lokasi_google_maps")
-  lokasiNamaJalan  String?  @map("lokasi_nama_jalan")
-  keterangan       String?
-  imageBisnis      String   @map("image_bisnis")
-  published        Boolean  @default(false)
-  user             String?
-  userId           String?
+  id            String   @id
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  nameBisnis    String   @map("name_bisnis")
+  username      String
+  whatsapp      String?
+  phone         String?
+  instagram     String?
+  urlInstagram  String?  @map("url_instagram")
+  tiktok        String?
+  urlTiktok     String?  @map("url_tiktok")
+  facebook      String?
+  urlFacebook   String?  @map("url_facebook")
+  shopee        String?
+  urlShopee     String?  @map("url_shopee")
+  lazada        String?
+  urlLazada     String?  @map("url_lazada")
+  tokopedia     String?
+  urlTokopedia  String?  @map("url_tokopedia")
+  googleMaps    String?  @map("google_maps")
+  alamat        String
+  description   String?
+  profileBisnis String   @map("profile_bisnis")
 
-  @@unique([user, userId])
   @@map("business")
 }

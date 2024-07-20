@@ -22,34 +22,20 @@ export const loginWithGoogle = async (user: User | AdapterUser) => {
   }
 };
 
-export const getUserById = async (id: string) => {
-  const user = await prisma.user.findUnique({
+export async function getAllBisnis() {
+  return await prisma.business.findMany();
+}
+
+export async function getBusinesById(id: string) {
+  const busines = await prisma.business.findUnique({
     where: { id },
   });
 
-  if (!user) throw new Error('Unauthenticated');
+  if (!busines) throw new Error('Tidak ada busines');
 
-  return user;
-};
+  return busines;
+}
 
-export const getBisnisByEmail = async (email: string) => {
-  const bisnis = await prisma.business.findMany({
-    where: { user: email },
-  });
-
-  if (!bisnis) throw new Error('Unauthenticated');
-
-  return bisnis;
-};
-
-export const getBisnisByEmailUniq = async (id: string) => {
-  // Kemudian, cari bisnis berdasarkan userId dari pengguna yang ditemukan
-  const bisnis = await prisma.business.findUnique({
-    where: { id },
-  });
-  console.log(bisnis);
-
-  if (!bisnis) throw new Error('Unauthenticated');
-
-  return bisnis;
-};
+export async function getAllUsers() {
+  return await prisma.user.findMany();
+}

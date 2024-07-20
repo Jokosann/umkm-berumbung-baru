@@ -5,9 +5,9 @@ type PropsTypes = {
 
 export default function Toaster({ variant, message }: PropsTypes) {
   return (
-    <div className="toast">
+    <div className="toast z-50">
       <div className={`alert ${variant}`}>
-        <span>{message}</span>
+        <span className="text-white">{message}</span>
       </div>
     </div>
   );

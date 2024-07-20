@@ -6,8 +6,9 @@ export function mainMiddleware() {
 }
 
 export default WithAuth(mainMiddleware, [
-  '/dashboard/profile',
   '/dashboard/admin',
-  '/dashboard/profile/update',
+  '/dashboard/admin/business/new',
+  '/dashboard/admin/business',
+  '/dashboard/admin/users',
   '/auth/login',
 ]);

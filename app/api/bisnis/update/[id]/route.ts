@@ -1,15 +1,15 @@
 import prisma from '@/common/libs/db/prisma';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   try {
     const res = await req.json();
     console.log('Parsed request data:', res);
 
-    if (res.image) {
+    if (res.profileBisnis) {
       const result = await prisma.business.update({
         where: { id: params.id },
-        data: { imageBisnis: res.image },
+        data: { profileBisnis: res.profileBisnis },
       });
       console.log('Database update image result:', result);
 
