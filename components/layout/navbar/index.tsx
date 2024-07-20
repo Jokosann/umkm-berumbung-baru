@@ -1,11 +1,11 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import NavMain from '@/components/layout/navbar/_component/Navbar';
+import Navbar from './Navbar';
 
-const disableNavbar = ['/admin', '/login', '/register'];
+const disableNavbar = ['/dashboard/admin', '/auth/login'];
 
-export default function Navbar() {
-  const pathname = usePathname();
-  return !disableNavbar.includes(pathname) && <NavMain />;
+export default function NavbarModule() {
+  const pathname = usePathname().split('/')[2];
+  return !disableNavbar.includes(`/dashboard/${pathname}`) && <Navbar />;
 }
